@@ -189,7 +189,7 @@ const SellerDashboard = ({ user, onAddCoffee, myCoffees, orders, onUpdateOrder }
     }).join(' ');
   };
 
-  const handleProgressOrder = (order: Order) => {
+  const handleProgressOrder = (order) => {
     const currentIndex = order.transitHistory.findIndex(s => s.status === 'Current');
     if (currentIndex < order.transitHistory.length - 1) {
       const newHistory = [...order.transitHistory];

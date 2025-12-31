@@ -107,11 +107,11 @@ const AddCoffeeModal = ({ onClose, onSave }) => {
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Latitude</label>
-                  <input required type="number" step="0.0001" onChange={e => setFormData({...formData, latLng: {...formData.latLng!, lat: parseFloat(e.target.value)}})} className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-[#8b5e3c] outline-none" placeholder="2.535" />
+                  <input required type="number" step="0.0001" onChange={e => setFormData({...formData, latLng: {...formData.latLng, lat: parseFloat(e.target.value)}})} className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-[#8b5e3c] outline-none" placeholder="2.535" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Longitude</label>
-                  <input required type="number" step="0.0001" onChange={e => setFormData({...formData, latLng: {...formData.latLng!, lng: parseFloat(e.target.value)}})} className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-[#8b5e3c] outline-none" placeholder="-75.527" />
+                  <input required type="number" step="0.0001" onChange={e => setFormData({...formData, latLng: {...formData.latLng, lng: parseFloat(e.target.value)}})} className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 focus:ring-2 focus:ring-[#8b5e3c] outline-none" placeholder="-75.527" />
                 </div>
               </div>
             </section>
