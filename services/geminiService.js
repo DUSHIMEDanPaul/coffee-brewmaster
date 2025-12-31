@@ -1,11 +1,10 @@
-
-import { GoogleGenAI, Modality, LiveServerMessage, Type } from "@google/genai";
+import { GoogleGenAI, Modality, LiveServerMessage } from "@google/genai";
 import { SYSTEM_INSTRUCTION, COFFEE_DATA } from "../constants";
 
 // Helper to get a fresh AI instance with the up-to-date API key
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-export const getCoffeeChatResponse = async (message: string, history: any[]) => {
+export const getCoffeeChatResponse = async (message, history) => {
   try {
     const ai = getAI();
     const response = await ai.models.generateContentStream({
@@ -26,7 +25,7 @@ export const getCoffeeChatResponse = async (message: string, history: any[]) => 
   }
 };
 
-export const getSellerBusinessInsights = async (salesSummary: string) => {
+export const getSellerBusinessInsights = async (salesSummary) => {
   try {
     const ai = getAI();
     const response = await ai.models.generateContent({
@@ -42,7 +41,7 @@ export const getSellerBusinessInsights = async (salesSummary: string) => {
   }
 };
 
-export const getPersonalizedRecommendation = async (mood: string, timeOfDay: string) => {
+export const getPersonalizedRecommendation = async (mood, timeOfDay) => {
   try {
     const ai = getAI();
     const response = await ai.models.generateContent({
@@ -51,10 +50,10 @@ export const getPersonalizedRecommendation = async (mood: string, timeOfDay: str
       config: {
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.OBJECT,
+          type: "object",
           properties: {
-            coffeeId: { type: Type.STRING },
-            reason: { type: Type.STRING }
+            coffeeId: { type: "string" },
+            reason: { type: "string" }
           },
           required: ['coffeeId', 'reason']
         }
@@ -67,7 +66,7 @@ export const getPersonalizedRecommendation = async (mood: string, timeOfDay: str
 };
 
 // --- VOICE CHAT LOGIC ---
-export function decode(base64: string) {
+export function decode(base64) {
   const binaryString = atob(base64);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
@@ -77,7 +76,7 @@ export function decode(base64: string) {
   return bytes;
 }
 
-export function encode(bytes: Uint8Array) {
+export function encode(bytes) {
   let binary = '';
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
@@ -87,11 +86,11 @@ export function encode(bytes: Uint8Array) {
 }
 
 export async function decodeAudioData(
-  data: Uint8Array,
-  ctx: AudioContext,
-  sampleRate: number,
-  numChannels: number,
-): Promise<AudioBuffer> {
+  data,
+  ctx,
+  sampleRate,
+  numChannels,
+) {
   const dataInt16 = new Int16Array(data.buffer);
   const frameCount = dataInt16.length / numChannels;
   const buffer = ctx.createBuffer(numChannels, frameCount, sampleRate);
@@ -105,18 +104,13 @@ export async function decodeAudioData(
   return buffer;
 }
 
-export const connectToVoiceChat = async (callbacks: {
-  onAudioData: (base64Data: string) => void;
-  onInterrupted: () => void;
-  onError: (e: any) => void;
-  onClose: () => void;
-}) => {
+export const connectToVoiceChat = async (callbacks) => {
   const ai = getAI();
   return ai.live.connect({
     model: 'gemini-2.5-flash-native-audio-preview-09-2025',
     callbacks: {
       onopen: () => console.log('Voice session opened'),
-      onmessage: async (message: LiveServerMessage) => {
+      onmessage: async (message) => {
         const audioData = message.serverContent?.modelTurn?.parts[0]?.inlineData?.data;
         if (audioData) {
           callbacks.onAudioData(audioData);
@@ -140,7 +134,7 @@ export const connectToVoiceChat = async (callbacks: {
   });
 };
 
-export const verifyDeforestationStatus = async (origin: string, latLng: { lat: number, lng: number }) => {
+export const verifyDeforestationStatus = async (origin, latLng) => {
   try {
     const ai = getAI();
     // Maps grounding is best supported in gemini-2.5-flash

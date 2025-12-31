@@ -2,23 +2,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connectToVoiceChat, encode, decode, decodeAudioData } from '../services/geminiService';
 
-interface VoiceChatModalProps {
-  onClose: () => void;
-}
-
-const VoiceChatModal: React.FC<VoiceChatModalProps> = ({ onClose }) => {
+const VoiceChatModal = ({ onClose }) => {
   const [isConnecting, setIsConnecting] = useState(true);
   const [isListening, setIsListening] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sessionRef = useRef<any>(null);
-  const nextStartTimeRef = useRef<number>(0);
-  const sourcesRef = useRef<Set<AudioBufferSourceNode>>(new Set());
+  const audioContextRef = useRef(null);
+  const sessionRef = useRef(null);
+  const nextStartTimeRef = useRef(0);
+  const sourcesRef = useRef(new Set());
 
   useEffect(() => {
     const startSession = async () => {
       try {
-        const outCtx = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+        const outCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
         audioContextRef.current = outCtx;
 
         const sessionPromise = connectToVoiceChat({

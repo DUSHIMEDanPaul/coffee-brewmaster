@@ -1,14 +1,9 @@
 
 import React, { useState } from 'react';
-import { Coffee } from '../types';
+import '../types';
 
-interface AddCoffeeModalProps {
-  onClose: () => void;
-  onSave: (coffee: Coffee) => void;
-}
-
-const AddCoffeeModal: React.FC<AddCoffeeModalProps> = ({ onClose, onSave }) => {
-  const [formData, setFormData] = useState<Partial<Coffee>>({
+const AddCoffeeModal = ({ onClose, onSave }) => {
+  const [formData, setFormData] = useState({
     category: 'Brew',
     flavorProfile: 'Floral',
     price: 0,
@@ -18,10 +13,10 @@ const AddCoffeeModal: React.FC<AddCoffeeModalProps> = ({ onClose, onSave }) => {
     foundingYear: new Date().getFullYear(),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newCoffee: Coffee = {
-      ...formData as Coffee,
+    const newCoffee = {
+      ...formData,
       id: `lot-${Math.random().toString(36).substr(2, 9)}`,
     };
     onSave(newCoffee);

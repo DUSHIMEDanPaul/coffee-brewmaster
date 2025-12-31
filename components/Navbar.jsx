@@ -1,14 +1,8 @@
 
 import React from 'react';
-import { User } from '../types';
+import '../types';
 
-interface NavbarProps {
-  user: User | null;
-  onLogout: () => void;
-  onNavigate: (page: any) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ user, onLogout, onNavigate }) => {
+const Navbar = ({ user, onLogout, onNavigate }) => {
   return (
     <nav className="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
       <div 

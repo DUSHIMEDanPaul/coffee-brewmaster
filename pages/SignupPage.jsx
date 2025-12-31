@@ -1,18 +1,13 @@
 
 import React, { useState } from 'react';
 
-interface SignupPageProps {
-  onSignup: (name: string, email: string, pass: string, role: 'buyer' | 'seller') => void;
-  onSwitchToLogin: () => void;
-}
-
-const SignupPage: React.FC<SignupPageProps> = ({ onSignup, onSwitchToLogin }) => {
+const SignupPage = ({ onSignup, onSwitchToLogin }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<'buyer' | 'seller'>('buyer');
+  const [role, setRole] = useState('buyer');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (name && email && password) {
       onSignup(name, email, password, role);

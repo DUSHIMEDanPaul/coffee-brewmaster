@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Coffee, CartItem, User, Page, Order } from './types';
+import './types';
 import { COFFEE_DATA } from './constants';
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
@@ -12,11 +12,7 @@ import VoiceChatModal from './components/VoiceChatModal';
 import AddCoffeeModal from './components/AddCoffeeModal';
 
 // --- SHARED COMPONENT: OrderLogisticsView ---
-const OrderLogisticsView: React.FC<{ 
-  order: Order, 
-  isSeller?: boolean, 
-  onProgress?: () => void 
-}> = ({ order, isSeller, onProgress }) => {
+const OrderLogisticsView = ({ order, isSeller, onProgress }) => {
   const completedSteps = order.transitHistory.filter(s => s.status === 'Completed').length;
   const progress = (completedSteps / (order.transitHistory.length - 1)) * 100;
   const currentStep = order.transitHistory.find(s => s.status === 'Current');
@@ -125,7 +121,7 @@ const OrderLogisticsView: React.FC<{
 };
 
 // --- COMPONENT: InsightMetric ---
-const InsightMetric: React.FC<{ label: string, value: string, trend?: string, isUp?: boolean, subtext: string }> = ({ label, value, trend, isUp, subtext }) => (
+const InsightMetric = ({ label, value, trend, isUp, subtext }) => (
   <div className="bg-white p-8 rounded-[3rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
     <div>
       <p className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-4">{label}</p>
@@ -143,18 +139,12 @@ const InsightMetric: React.FC<{ label: string, value: string, trend?: string, is
 );
 
 // --- COMPONENT: SellerDashboard ---
-const SellerDashboard: React.FC<{ 
-  user: User,
-  onAddCoffee: (c: Coffee) => void, 
-  myCoffees: Coffee[],
-  orders: Order[],
-  onUpdateOrder: (id: string, updates: Partial<Order>) => void
-}> = ({ user, onAddCoffee, myCoffees, orders, onUpdateOrder }) => {
-  const [activeTab, setActiveTab] = useState<'listings' | 'analytics' | 'orders'>('analytics');
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+const SellerDashboard = ({ user, onAddCoffee, myCoffees, orders, onUpdateOrder }) => {
+  const [activeTab, setActiveTab] = useState('analytics');
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [granularity, setGranularity] = useState<'Hour' | 'Day' | 'Week' | 'Month' | 'Year'>('Week');
-  const [aiInsights, setAiInsights] = useState<string>('Elias is calibrating regional demand indices...');
+  const [granularity, setGranularity] = useState('Week');
+  const [aiInsights, setAiInsights] = useState('Elias is calibrating regional demand indices...');
 
   useEffect(() => {
     if (activeTab === 'analytics') {
@@ -215,8 +205,8 @@ const SellerDashboard: React.FC<{
       if (currentIndex === 1) newStatus = 'Shipped';
       if (currentIndex === order.transitHistory.length - 2) newStatus = 'Delivered';
 
-      const updated = { ...order, transitHistory: newHistory, status: newStatus as any };
-      onUpdateOrder(order.id, { transitHistory: newHistory, status: newStatus as any });
+      const updated = { ...order, transitHistory: newHistory, status: newStatus };
+      onUpdateOrder(order.id, { transitHistory: newHistory, status: newStatus });
       setSelectedOrder(updated);
     }
   };
@@ -236,7 +226,7 @@ const SellerDashboard: React.FC<{
           </div>
         </div>
         <div className="flex bg-white/50 backdrop-blur-md p-1.5 rounded-[2rem] shadow-sm border border-gray-100">
-          {(['analytics', 'orders', 'listings'] as const).map((tab) => (
+          {['analytics', 'orders', 'listings'].map((tab) => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); setSelectedOrder(null); }}
@@ -264,7 +254,7 @@ const SellerDashboard: React.FC<{
                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">Acquisition Velocity Index</p>
                   </div>
                   <div className="flex bg-[#fcfaf9] p-2 rounded-2xl border border-gray-100 shadow-inner">
-                    {(['Hour', 'Day', 'Week', 'Month', 'Year'] as const).map((g) => (
+                    {['Hour', 'Day', 'Week', 'Month', 'Year'].map((g) => (
                       <button
                         key={g}
                         onClick={() => setGranularity(g)}
@@ -477,8 +467,8 @@ const SellerDashboard: React.FC<{
 };
 
 // --- COMPONENT: BuyerOrdersPage ---
-const BuyerOrdersPage: React.FC<{ orders: Order[] }> = ({ orders }) => {
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+const BuyerOrdersPage = ({ orders }) => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   return (
     <div className="p-6 pb-24 max-w-5xl mx-auto space-y-12 animate-in fade-in duration-500">
@@ -543,12 +533,7 @@ const BuyerOrdersPage: React.FC<{ orders: Order[] }> = ({ orders }) => {
 };
 
 // --- COMPONENT: CartPage ---
-const CartPage: React.FC<{ 
-  items: CartItem[], 
-  onUpdateQuantity: (id: string, delta: number) => void, 
-  onRemove: (id: string) => void,
-  onCheckout: (method: 'Standard' | 'Escrow') => void
-}> = ({ items, onUpdateQuantity, onRemove, onCheckout }) => {
+const CartPage = ({ items, onUpdateQuantity, onRemove, onCheckout }) => {
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
@@ -608,7 +593,7 @@ const CartPage: React.FC<{
 };
 
 // --- COMPONENT: VoiceConciergePage ---
-const VoiceConciergePage: React.FC<{ user: User; onStartVoice: () => void }> = ({ user, onStartVoice }) => {
+const VoiceConciergePage = ({ user, onStartVoice }) => {
   return (
     <div className="p-6 pb-24 max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[70vh] text-center space-y-10 animate-in zoom-in duration-700">
       <div className="relative">
@@ -636,11 +621,11 @@ const VoiceConciergePage: React.FC<{ user: User; onStartVoice: () => void }> = (
 };
 
 // --- COMPONENT: ChatWithEliasPage ---
-const ChatWithEliasPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice }) => {
-  const [messages, setMessages] = useState<{role: string, parts: {text: string}[]}[]>([]);
+const ChatWithEliasPage = ({ onOpenVoice }) => {
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -727,11 +712,7 @@ const ChatWithEliasPage: React.FC<{ onOpenVoice: () => void }> = ({ onOpenVoice 
 };
 
 // --- COMPONENT: ADVANCED FILTER HUB ---
-const AdvancedFilterHub: React.FC<{
-  filters: any,
-  setFilters: (f: any) => void,
-  origins: string[]
-}> = ({ filters, setFilters, origins }) => {
+const AdvancedFilterHub = ({ filters, setFilters, origins }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -831,7 +812,7 @@ const AdvancedFilterHub: React.FC<{
                   key={origin}
                   onClick={() => {
                     const newOrigins = filters.originNodes.includes(origin) 
-                      ? filters.originNodes.filter((o: string) => o !== origin)
+                      ? filters.originNodes.filter(o => o !== origin)
                       : [...filters.originNodes, origin];
                     setFilters({ ...filters, originNodes: newOrigins });
                   }}
@@ -893,19 +874,19 @@ const AdvancedFilterHub: React.FC<{
 };
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [authView, setAuthView] = useState<'login' | 'signup'>('login');
-  const [currentPage, setCurrentPage] = useState<Page>('shop');
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [allCoffees, setAllCoffees] = useState<Coffee[]>(COFFEE_DATA);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [user, setUser] = useState(null);
+  const [authView, setAuthView] = useState('login');
+  const [currentPage, setCurrentPage] = useState('shop');
+  const [cart, setCart] = useState([]);
+  const [allCoffees, setAllCoffees] = useState(COFFEE_DATA);
+  const [orders, setOrders] = useState([]);
   const [showVoiceChat, setShowVoiceChat] = useState(false);
   
   // Filter state
   const [filters, setFilters] = useState({
     search: '',
     rating: 0,
-    originNodes: [] as string[],
+    originNodes: [],
     isRoasted: false,
     isUnroasted: false,
     isVolcanic: false,
@@ -942,7 +923,7 @@ export default function App() {
     });
   }, [allCoffees, filters]);
 
-  const toggleFavorite = (id: string) => {
+  const toggleFavorite = (id) => {
     if (!user) return;
     setUser(curr => {
       if (!curr) return null;
@@ -954,7 +935,7 @@ export default function App() {
     });
   };
 
-  const handleLogin = (email: string, pass: string, role: 'buyer' | 'seller') => {
+  const handleLogin = (email, pass, role) => {
     setUser({ id: 'u1', email, displayName: email.split('@')[0], favorites: [], role });
     setCurrentPage(role === 'seller' ? 'seller-dashboard' : 'shop');
     
@@ -981,10 +962,10 @@ export default function App() {
     }
   };
 
-  const handleCheckout = (method: 'Standard' | 'Escrow') => {
+  const handleCheckout = (method) => {
     if (cart.length === 0) return;
     const origin = cart[0].origin;
-    const newOrder: Order = {
+    const newOrder = {
       id: `ord-${Math.floor(Math.random() * 10000)}`,
       buyerName: user?.displayName || 'Guest',
       items: [...cart],

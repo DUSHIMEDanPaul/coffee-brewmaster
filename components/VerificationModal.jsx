@@ -1,16 +1,11 @@
 
 import React, { useEffect, useState } from 'react';
-import { Coffee } from '../types';
+import '../types';
 import { verifyDeforestationStatus } from '../services/geminiService';
 
-interface VerificationModalProps {
-  coffee: Coffee;
-  onClose: () => void;
-}
-
-const VerificationModal: React.FC<VerificationModalProps> = ({ coffee, onClose }) => {
-  const [status, setStatus] = useState<string>('Calibrating Satellite Link...');
-  const [sources, setSources] = useState<any[]>([]);
+const VerificationModal = ({ coffee, onClose }) => {
+  const [status, setStatus] = useState('Calibrating Satellite Link...');
+  const [sources, setSources] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 

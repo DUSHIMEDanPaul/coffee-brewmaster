@@ -1,13 +1,8 @@
 
 import React from 'react';
-import { Coffee } from '../types';
+import '../types';
 
-interface OriginStoryModalProps {
-  coffee: Coffee;
-  onClose: () => void;
-}
-
-const OriginStoryModal: React.FC<OriginStoryModalProps> = ({ coffee, onClose }) => {
+const OriginStoryModal = ({ coffee, onClose }) => {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#f8f5f2]/95 backdrop-blur-xl p-4 md:p-10 overflow-hidden">
       <div className="relative w-full max-w-5xl h-full bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row animate-in slide-in-from-bottom-8 duration-700">

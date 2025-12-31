@@ -1,7 +1,6 @@
+import './types';
 
-import { Coffee } from './types';
-
-export const COFFEE_DATA: Coffee[] = [
+export const COFFEE_DATA = [
   {
     id: 'eth-yirg-1',
     name: 'Ethiopian Yirgacheffe G1',
@@ -148,7 +147,7 @@ export const COFFEE_DATA: Coffee[] = [
   }
 ];
 
-export const MOCK_SALES: any[] = [
+export const MOCK_SALES = [
   { coffeeId: 'eth-yirg-1', date: '2023-10-01', amount: 3, region: 'Europe' },
   { coffeeId: 'eth-yirg-1', date: '2023-10-02', amount: 5, region: 'USA' },
   { coffeeId: 'ken-nyeri-aa', date: '2023-10-03', amount: 2, region: 'Asia' },

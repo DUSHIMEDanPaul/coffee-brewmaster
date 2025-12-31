@@ -1,17 +1,10 @@
 
 import React, { useState } from 'react';
-import { Coffee } from '../types';
+import '../types';
 import VerificationModal from './VerificationModal';
 import OriginStoryModal from './OriginStoryModal';
 
-interface CoffeeTileProps {
-  coffee: Coffee;
-  onAddToCart: (coffee: Coffee) => void;
-  onToggleFavorite: (id: string) => void;
-  isFavorite: boolean;
-}
-
-const CoffeeTile: React.FC<CoffeeTileProps> = ({ coffee, onAddToCart, onToggleFavorite, isFavorite }) => {
+const CoffeeTile = ({ coffee, onAddToCart, onToggleFavorite, isFavorite }) => {
   const [showStoryShort, setShowStoryShort] = useState(false);
   const [showVerify, setShowVerify] = useState(false);
   const [showFullStory, setShowFullStory] = useState(false);
