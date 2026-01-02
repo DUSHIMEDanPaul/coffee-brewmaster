@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ☕ BrewMaster
 
 <div align="center">
@@ -458,3 +459,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ⭐ Star this repo if you found it helpful!
 
 </div>
+=======
+
+
+This contains everything you need to run your app locally.
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
+>>>>>>> dee56c440c355dd11b1c056cd83eed9329e4a540

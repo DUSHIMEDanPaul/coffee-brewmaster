@@ -1,0 +1,9 @@
+{
+  "name": "BrewMaster",
+  "description": "A premium coffee exploration app with AI-powered recommendations, a smart barista chat, and seamless cart management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
